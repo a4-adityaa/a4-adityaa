@@ -1,5 +1,5 @@
 name: Update profile stats
-
+ 
 on:
   schedule:
     - cron: "0 */12 * * *"
@@ -9,31 +9,31 @@ on:
     paths:
       - ".github/workflows/profile-stats.yml"
       - "scripts/**"
-
+ 
 permissions:
   contents: write
-
+ 
 jobs:
   stats:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-
+ 
       - name: Generate language and stats cards
-        uses: vn7n24fzkq/github-profile-summary-cards@release/v4.2.2
+        uses: vn7n24fzkq/github-profile-summary-cards@release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           USERNAME: ${{ github.repository_owner }}
           BRANCH_NAME: main
           UTC_OFFSET: 5.5
-
+ 
       - name: Generate contribution graph
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           USERNAME: ${{ github.repository_owner }}
         run: python3 scripts/activity_graph.py
-
+ 
       - name: Commit generated files
         run: |
           git config user.name "github-actions[bot]"
